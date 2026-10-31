@@ -1,0 +1,50 @@
+class Solution {
+    public static int characterReplacement(String s, int k) {
+
+        int[] freq = new int[26];
+
+        int left = 0;
+        int maxLength = 0;
+        int maxFreq = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+
+            char ch = s.charAt(right);
+
+            freq[ch - 'A']++;
+
+            maxFreq = Math.max(maxFreq, freq[ch - 'A']);
+
+            int windowLength = right - left + 1;
+
+            int changes = windowLength - maxFreq;
+
+            while (changes > k) {
+
+                freq[s.charAt(left) - 'A']--;
+
+                left++;
+
+                windowLength = right - left + 1;
+
+                changes = windowLength - maxFreq;
+            }
+
+            maxLength = Math.max(maxLength, windowLength);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+
+        String s = "AABABBA";
+        int k = 1;
+
+        int result = characterReplacement(s, k);
+
+        System.out.println("Longest substring length: " + result);
+    }
+}
+
+    
